@@ -5,6 +5,7 @@
 #include "device.h"
 #include "sched.h"
 #include "mcu.h"
+#include "errno.h"
 
 shell_t *shell = NULL;
 
@@ -56,7 +57,7 @@ const char * shell_get_prompt()
 		return NULL;
 	}
 
-	if( shell_prompt == NULL )
+	if( !shell_prompt )
 	{
 		shell_set_prompt(SHELL_PROMPT);
 	}
@@ -92,7 +93,7 @@ err_t shell_set_prompt_mode( uint8 mode )
 void shell_set_echo_mode( uint8_t mode )
 {
 	if( shell == NULL )
-		return NULL;
+		return ;
 	shell->echo_mode = (mode)?(1):(0);
 }
 
@@ -115,14 +116,14 @@ static char shell_get_char( void )
 	if( shell == NULL )
 		return NULL;
 	while( device_read( shell->device, -1, &ch, 1) != 1)
-		sem_pend( &(shell->sem), PORT_MAX_DELAY );
+		sem_pend( &(shell->sem), MCU_MAX_DELAY );
 	return ch;
 }
 
 /**
  *	接收回调
  */
-static err_t shell_rx_callback( device_t dev, size_t size )
+static err_t shell_rx_callback( device_t *dev, size_t size )
 {
 	if( shell == NULL )
 		return -EERR;
@@ -147,7 +148,7 @@ void shell_set_device( const char *name )
 	
 	if( dev == shell->device )
 		return;
-	if( device_open( dev, DEVICE_OFLAG_RDWR | DEVICE_FLAG_INT_RX | \ 
+	if( device_open( dev, DEVICE_OFLAG_RDWR | DEVICE_FLAG_INT_RX |      \
 							DEVICE_FLAG_STREAM ) == EOK )
 	{
 		/*成功打开*/
@@ -186,7 +187,7 @@ static void shell_auto_complete( char *prefix )
 
 static bool_t shell_handle_history( shell_t *shell )
 {
-
+    return TRUE;
 }
 
 static void shell_push_history( shell_t *shell )
@@ -205,7 +206,7 @@ void task_shell_entry( void *params )
 /**
  *	shell 初始化
  */
-err_t shell_init( void )
+int shell_init( void )
 {
 	err_t ret = EOK;
 

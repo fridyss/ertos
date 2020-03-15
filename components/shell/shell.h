@@ -2,6 +2,8 @@
 #define _SHELL_H
 
 #include "ertos.h"
+#include "device.h"
+#include "sem.h"
 
 #ifdef _cplusplus
 extern "C" {

@@ -117,7 +117,7 @@ static err_t serial_open(device_t *dev, uint16_t open_flag)
 	{
 		if( open_flag & DEVICE_FLAG_INT_TX )
 		{
-			uint16_t size = serial->config.bufsz;
+			//uint16_t size = serial->config.bufsz;
 			//serial->serial_tx =  (fifo_t *)fifo_alloc( size, 1 ); /*分配*/
 			//serial->ops->control(serial, DEVICE_CTRL_SET_INT, (void *)DEVICE_FLAG_INT_TX);
 		}
