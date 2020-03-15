@@ -54,7 +54,15 @@ typedef  unsigned int uint32;
 
 typedef  signed long long int64;
 typedef  unsigned long long uint64;
-    
+
+typedef int16 err_t;
+typedef uint16 offset_t;
+//typedef uint16 size_t;
+
+typedef uint8_t bool_t;
+
+
+
 #ifdef __cpulsplus
 }
 #endif

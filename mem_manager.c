@@ -2,7 +2,7 @@
 #include "string.h"
 #include "list.h"
 
-#define MEM_ALIGN_BYTE          (4)
+
 
 #define OPEN_MEM_MANAGE_DEBUGx
 
@@ -203,8 +203,8 @@ int8 mem_free(uint8* ptr)
 int8 mem_init()
 {
 	mem_node_t  *mem_node1;
-	printf("g_mem_pool addr :%p, mem_node_t size :%d \r\n", \
-							   g_mem_pool, sizeof(mem_node_t));
+	//printf("g_mem_pool addr :%p, mem_node_t size :%d \r\n", \
+	//						   g_mem_pool, sizeof(mem_node_t));
 	g_mem_node_head = (mem_node_t*)g_mem_pool;
 	list_init(&(g_mem_node_head->list));
 	g_mem_node_head->mem_size = 0;

@@ -23,8 +23,6 @@ typedef struct _fifo
 }fifo_t;
 
 
-
-
 extern fifo_t *fifo_alloc( uint16 item_nr, uint16_t item_size );
 extern void fifo_free( fifo_t *fifo );
 extern uint16_t fifo_put( fifo_t *fifo, uint8_t *buffer, uint16_t item_nr );

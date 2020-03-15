@@ -11,7 +11,7 @@
 #define SCHED_SET_PRIORITY(x, y)			( (y) |= (1ul << (x)) )
 #define SCHED_RESET_PRIORITY(x, y)			( (y) &= ~(1ul << (x)) )
 #else
-#define PRIORITY_PRINTF(x)	printf("%s, %d, %u \r\n", __func__, __LINE__, (x) )
+#define PRIORITY_PRINTF(x)	//printf("%s, %d, %u \r\n", __func__, __LINE__, (x) )
 #define SCHED_SET_PRIORITY(x, y)			( (y) |= (1ul << (x)) );PRIORITY_PRINTF(y)
 #define SCHED_RESET_PRIORITY(x, y)			( (y) &= ~(1ul << (x)) );PRIORITY_PRINTF(y)
 #endif
@@ -283,15 +283,17 @@ int8_t scheduler_task_tick_inc( void )
 					break;
 			}	
 		}
+        
+		if( get_scheduler()->timer != NULL )
+			get_scheduler()->timer->run();
+        
 		/*重新调度*/
 		list_head_t  *task_list = &( g_scheduler.task_list_ready[ current_tcb->priority ] );
-		if(list_length( task_list ) > 1)
+		if( list_length( task_list ) > 1 )
 		{
 			ret = TRUE;
 		}
 
-		if( get_scheduler()->timer != NULL )
-			get_scheduler()->timer->run();
 	}
 
 	return ret;
@@ -686,7 +688,7 @@ static void scheduler_task_idel(void * parameters)
 				list_node_del( next );
 				tcb_t *tcb = list_entry( next, tcb_t, list);
 				list_node_del( &(tcb->event_list) );
-                printf("%s ,free :%s\r\n", __func__, tcb->name);
+               //printf("%s ,free :%s\r\n", __func__, tcb->name);
 				mem_free( (uint8_t *)tcb->stack_buffer );
 				mem_free( (uint8_t *)tcb );
 				
@@ -788,7 +790,7 @@ static void scheduler_task_event_process( void *pamas )
 	
 	tcb_t *tcb = NULL;
 	uint32_t event = 0;
-	printf("%s \r\n", __func__ );
+	//printf("%s \r\n", __func__ );
 
 	tcb = current_tcb;
 	if( tcb != NULL && tcb->event_add_fun != NULL )

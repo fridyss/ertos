@@ -9,6 +9,13 @@
 extern "C" {
 #endif
 
+#define MEM_ALIGN_BYTE          (4)
+
+#define MEM_ALIGN( size, align_byte ) \
+size = ((size)%(align_byte))? \
+	   ((size) - (size)%(align_byte) + (align_byte)):\
+	   ((size)); 
+
 
 #define MEM_POOL_SIZE    (46*1024)
 

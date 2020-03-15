@@ -71,7 +71,7 @@ static uint32_t max_prigroup_value = 0;
 
 void handr_fault_c(unsigned int * svc_args)
 {
-	printf("HardFault\r\n");
+	//printf("HardFault\r\n");
     while(1);
 }
 
@@ -129,22 +129,22 @@ __asm void PendSV_Handler( void )
 	//extern scheduler_task_switch_context;
     extern scheduler_task_switch_context;   
     
-	mrs r0, psp
+	mrs r0, psp /*传送psp寄存器到r0*/
 	isb
 	/* Get the location of the current TCB. */
-	ldr	r3, =current_tcb
-	ldr	r2, [r3]
+	ldr	r3, =current_tcb /*同时也是栈顶指针*/
+	ldr	r2, [r3]         /*将栈顶值传送到r2*/
 
 	/* Is the task using the FPU context?  If so, push high vfp registers. */
-	tst r14, #0x10
+	tst r14, #0x10      /*比较连接寄存器值, 判断是否使用了浮点运算*/
 	it eq
-	vstmdbeq r0!, {s16-s31}
+	vstmdbeq r0!, {s16-s31} /*如果使用了浮点运算, 则在当堆栈保存s16 - s31 寄存器值*/
 
 	/* Save the core registers. */
-	stmdb r0!, {r4-r11, r14}
+	stmdb r0!, {r4-r11, r14} /*保存r4-r11 , r14 寄存器到*/
 
 	/* Save the new top of stack into the first member of the TCB. */
-	str r0, [r2]
+	str r0, [r2]       /*更新栈顶, tcb 的值*/
 
 	stmdb sp!, {r3}
 	mov r0, #ERTOS_MAX_SYSCALL_INTERRUPT_PRIORITY
@@ -154,7 +154,7 @@ __asm void PendSV_Handler( void )
 	bl scheduler_task_switch_context
 	mov r0, #0
 	msr basepri, r0
-	ldmia sp!, {r3}
+	ldmia sp!, {r3}  /*r3  为更新后tcb值*/
 
 	/* The first item in pxCurrentTCB is the task top of stack. */
 	ldr r1, [r3]
@@ -216,7 +216,7 @@ __asm void mcu_start_first_task( void )
 static void mcu_task_exit_err( void )
 {
 	//DISABLE_INTERRUPTS();
-    printf("%s \r\n", __FUNCTION__);
+    //printf("%s \r\n", __FUNCTION__);
 	for( ;; );
 }
 

@@ -10,7 +10,7 @@ extern "C" {
 #endif
 
 
-#define OPEN_SHCDE_DEBUG
+#define OPEN_SHCDE_DEBUGx
 
 
 #ifdef __NVIC_PRIO_BITS
@@ -37,6 +37,10 @@ extern "C" {
 #define ERTOS_TICK_RATE_HZ									(10)  /*10ms每一个时钟片断*/                
 
 #define ERTOS_OPEN_MEM_INFO 
+
+/*conslos*/
+#define ERTOS_CONSOLE_BUFFER_SIZE						    (256)
+#define ERTOS_CONSOLE_NAME									"usart1"
 
 #ifdef __cplusplus
 }

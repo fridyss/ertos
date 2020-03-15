@@ -14,6 +14,17 @@ extern "C" {
 #define EINVALID_PARAMETERS						( -7 )
 #define EQUEUE_FULL								( -8 )
 #define EQUEUE_EMPTY							( -9 )
+#define EOK                          			(  0 )               
+#define EERR                        			(  1 )               
+#define ETIMEOUT                     			(  2 )              
+#define EFULL                       			(  3 )              
+#define EEMPTY                       			(  4 )              
+#define ENOMEM                       			(  5 )              
+#define ENOSYS                                  (  6 )              
+#define EBUSY                       	 		(  7 )              
+#define EIO                         			(  8 )              
+#define EINTR                        			(  9 )              
+#define EINVAL                       			(  10)              
 
 
 #ifdef __cplusplus

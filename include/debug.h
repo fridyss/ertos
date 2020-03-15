@@ -2,6 +2,7 @@
 #define _DEBUG_H
 
 #include "type.h"
+#include "service.h"
 
 #ifdef __cplusplus
 extern "C" {
